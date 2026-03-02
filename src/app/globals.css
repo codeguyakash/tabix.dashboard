@@ -1,5 +1,5 @@
 :root {
-  --background: #050505;
+  --background: #;
   --foreground: #ffffff;
   --card-bg: rgba(255, 255, 255, 0.03);
   --card-border: rgba(255, 255, 255, 0.08);
@@ -26,4 +26,9 @@ body {
     -apple-system,
     sans-serif;
   -webkit-font-smoothing: antialiased;
+
+  /* Dots */
+  background-image: radial-gradient(#d4d4d4 1px, transparent 0);
+  background-size: 25px 25px;
+  background-position: -11px -11px;
 }

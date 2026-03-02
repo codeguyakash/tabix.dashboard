@@ -22,12 +22,10 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const year: any = new Date().getFullYear();
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         {children}
-        {/* <p className="absolute bottom-10">{year}</p> */}
       </body>
     </html>
   );
