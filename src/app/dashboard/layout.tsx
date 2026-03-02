@@ -10,6 +10,7 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 export default async function DashboardLayout({
   children,
@@ -25,7 +26,7 @@ export default async function DashboardLayout({
         style={{
           width: "var(--sidebar-width)",
           borderRight: "1px solid var(--card-border)",
-          background: "rgba(255, 255, 255, 0.01)",
+          background: "var(--background)",
           display: "flex",
           flexDirection: "column",
           padding: "2rem 1.5rem",
@@ -46,9 +47,15 @@ export default async function DashboardLayout({
             width={50}
             height={50}
             alt="logo"
-            className="my-2"
+            style={{ borderRadius: "0.5rem" }}
           />
-          <span style={{ fontWeight: "700", fontSize: "1.25rem" }}>
+          <span
+            style={{
+              fontWeight: "700",
+              fontSize: "1.25rem",
+              color: "var(--foreground)",
+            }}
+          >
             Tabix - Octotech
           </span>
         </div>
@@ -92,7 +99,7 @@ export default async function DashboardLayout({
               gap: "0.75rem",
               padding: "1rem",
               borderRadius: "1rem",
-              background: "rgba(255, 255, 255, 0.03)",
+              background: "var(--card-bg)",
               marginBottom: "1rem",
               border: "1px solid var(--card-border)",
             }}
@@ -117,7 +124,9 @@ export default async function DashboardLayout({
               >
                 {session?.user?.name}
               </p>
-              <p style={{ fontSize: "0.75rem", color: "#666" }}>Staff</p>
+              <p style={{ fontSize: "0.75rem", color: "var(--accent-muted)" }}>
+                Staff
+              </p>
             </div>
           </div>
 
@@ -156,8 +165,7 @@ export default async function DashboardLayout({
           marginLeft: "var(--sidebar-width)",
           flex: 1,
           padding: "2rem 3rem",
-          background:
-            "radial-gradient(circle at 10% 10%, rgba(255,255,255,0.02) 0%, transparent 40%)",
+          background: "var(--background)",
         }}
       >
         {/* Top Header */}
@@ -177,18 +185,18 @@ export default async function DashboardLayout({
                 left: "1rem",
                 top: "50%",
                 transform: "translateY(-50%)",
-                color: "#666",
+                color: "var(--accent-muted)",
               }}
             />
             <input
               type="text"
               placeholder="Search data..."
               style={{
-                background: "rgba(255,255,255,0.03)",
+                background: "var(--card-bg)",
                 border: "1px solid var(--card-border)",
-                borderRadius: "2rem",
+                borderRadius: "20px",
                 padding: "0.6rem 1rem 0.6rem 2.8rem",
-                color: "#fff",
+                color: "var(--foreground)",
                 width: "300px",
                 outline: "none",
               }}
@@ -196,17 +204,19 @@ export default async function DashboardLayout({
           </div>
 
           <div style={{ display: "flex", gap: "1rem" }}>
+            <ThemeToggle />
             <button
               style={{
                 width: "40px",
                 height: "40px",
                 borderRadius: "50%",
-                background: "rgba(255,255,255,0.03)",
+                background: "var(--card-bg)",
                 border: "1px solid var(--card-border)",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                color: "#fff",
+                color: "var(--foreground)",
+                cursor: "pointer",
               }}
             >
               <Bell size={20} />
@@ -215,11 +225,12 @@ export default async function DashboardLayout({
               style={{
                 padding: "0 1.25rem",
                 borderRadius: "2rem",
-                background: "#fff",
-                color: "#000",
+                background: "var(--foreground)",
+                color: "var(--background)",
                 border: "none",
                 fontWeight: "600",
                 fontSize: "0.875rem",
+                cursor: "pointer",
               }}
             >
               Create Report
@@ -253,8 +264,8 @@ function NavItem({
         gap: "0.75rem",
         padding: "0.875rem 1rem",
         borderRadius: "0.75rem",
-        color: active ? "#fff" : "#666",
-        background: active ? "rgba(255, 255, 255, 0.05)" : "transparent",
+        color: active ? "var(--foreground)" : "var(--accent-muted)",
+        background: active ? "var(--card-bg)" : "transparent",
         textDecoration: "none",
         fontWeight: active ? "600" : "500",
         fontSize: "0.875rem",

@@ -1,11 +1,20 @@
 :root {
-  --background: #;
-  --foreground: #ffffff;
+  --background: #ffffff;
+  --foreground: #171717;
+  --card-bg: rgba(0, 0, 0, 0.03);
+  --card-border: rgba(0, 0, 0, 0.08);
+  --accent: #000000;
+  --accent-muted: #737373;
+  --sidebar-width: 280px;
+}
+
+[data-theme="dark"] {
+  --background: #0a0a0a;
+  --foreground: #ededed;
   --card-bg: rgba(255, 255, 255, 0.03);
   --card-border: rgba(255, 255, 255, 0.08);
   --accent: #ffffff;
   --accent-muted: #a0a0a0;
-  --sidebar-width: 280px;
 }
 
 * {
@@ -26,8 +35,8 @@ body {
     -apple-system,
     sans-serif;
   -webkit-font-smoothing: antialiased;
-
-  /* Dots */
+}
+.dots-pattern {
   background-image: radial-gradient(#d4d4d4 1px, transparent 0);
   background-size: 25px 25px;
   background-position: -11px -11px;

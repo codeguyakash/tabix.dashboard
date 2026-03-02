@@ -13,7 +13,7 @@ export default function DashboardPage() {
         >
           Command Center
         </h1>
-        <p style={{ color: "#666" }}>
+        <p style={{ color: "var(--accent-muted)" }}>
           Welcome back to your administration dashboard.
         </p>
       </div>
@@ -64,7 +64,13 @@ export default function DashboardPage() {
         {/* Activity Chart Area */}
         <div
           className="glass premium-gradient"
-          style={{ padding: "2rem", minHeight: "400px" }}
+          style={{
+            padding: "2rem",
+            minHeight: "400px",
+            background: "var(--card-bg)",
+            border: "1px solid var(--card-border)",
+            borderRadius: "1rem",
+          }}
         >
           <div
             style={{
@@ -74,12 +80,14 @@ export default function DashboardPage() {
               marginBottom: "2rem",
             }}
           >
-            <h3 style={{ fontWeight: "600" }}>System Activity</h3>
+            <h3 style={{ fontWeight: "600", color: "var(--foreground)" }}>
+              System Activity
+            </h3>
             <select
               style={{
-                background: "rgba(255,255,255,0.05)",
+                background: "var(--card-bg)",
                 border: "1px solid var(--card-border)",
-                color: "#fff",
+                color: "var(--foreground)",
                 padding: "0.4rem 0.8rem",
                 borderRadius: "0.5rem",
                 fontSize: "0.75rem",
@@ -107,8 +115,8 @@ export default function DashboardPage() {
                 style={{
                   flex: 1,
                   height: `${h}%`,
-                  background:
-                    "linear-gradient(to top, rgba(255,255,255,0.1), rgba(255,255,255,0.4))",
+                  background: "var(--accent-muted)",
+                  opacity: 0.3,
                   borderRadius: "4px",
                   transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
                   cursor: "pointer",
@@ -120,8 +128,22 @@ export default function DashboardPage() {
         </div>
 
         {/* Recent Events */}
-        <div className="glass premium-gradient" style={{ padding: "2rem" }}>
-          <h3 style={{ fontWeight: "600", marginBottom: "1.5rem" }}>
+        <div
+          className="glass premium-gradient"
+          style={{
+            padding: "2rem",
+            background: "var(--card-bg)",
+            border: "1px solid var(--card-border)",
+            borderRadius: "1rem",
+          }}
+        >
+          <h3
+            style={{
+              fontWeight: "600",
+              marginBottom: "1.5rem",
+              color: "var(--foreground)",
+            }}
+          >
             Recent Alerts
           </h3>
           <div
@@ -155,7 +177,15 @@ function StatCard({
 }) {
   const isUp = trend.startsWith("+");
   return (
-    <div className="glass premium-gradient" style={{ padding: "1.5rem" }}>
+    <div
+      className="glass premium-gradient"
+      style={{
+        padding: "1.5rem",
+        background: "var(--card-bg)",
+        border: "1px solid var(--card-border)",
+        borderRadius: "1rem",
+      }}
+    >
       <div
         style={{
           display: "flex",
@@ -164,7 +194,7 @@ function StatCard({
           marginBottom: "1rem",
         }}
       >
-        <div style={{ color: "#666" }}>{icon}</div>
+        <div style={{ color: "var(--accent-muted)" }}>{icon}</div>
         <div
           style={{
             fontSize: "0.75rem",
@@ -190,14 +220,22 @@ function StatCard({
       <div>
         <p
           style={{
-            color: "#666",
+            color: "var(--accent-muted)",
             fontSize: "0.875rem",
             marginBottom: "0.25rem",
           }}
         >
           {title}
         </p>
-        <p style={{ fontSize: "1.75rem", fontWeight: "700" }}>{value}</p>
+        <p
+          style={{
+            fontSize: "1.75rem",
+            fontWeight: "700",
+            color: "var(--foreground)",
+          }}
+        >
+          {value}
+        </p>
       </div>
     </div>
   );
@@ -219,7 +257,7 @@ function AlertItem({
           width: "8px",
           height: "8px",
           borderRadius: "50%",
-          background: urgent ? "#ff4444" : "#444",
+          background: urgent ? "#ff4444" : "var(--accent-muted)",
         }}
       />
       <div style={{ flex: 1 }}>
@@ -227,12 +265,14 @@ function AlertItem({
           style={{
             fontSize: "0.875rem",
             fontWeight: "500",
-            color: urgent ? "#fff" : "#ccc",
+            color: urgent ? "#ff4444" : "var(--foreground)",
           }}
         >
           {title}
         </p>
-        <p style={{ fontSize: "0.75rem", color: "#444" }}>{time}</p>
+        <p style={{ fontSize: "0.75rem", color: "var(--accent-muted)" }}>
+          {time}
+        </p>
       </div>
     </div>
   );

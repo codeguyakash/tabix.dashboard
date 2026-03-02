@@ -7,13 +7,13 @@ export default function UnauthorizedPage() {
   return (
     <div
       style={{
-        height: "100-vh",
+        height: "100vh",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
-        backgroundColor: "#0a0a0a",
-        color: "#fff",
+        backgroundColor: "var(--background)",
+        color: "var(--foreground)",
         fontFamily: "var(--font-geist-sans)",
         textAlign: "center",
         padding: "2rem",
@@ -35,12 +35,21 @@ export default function UnauthorizedPage() {
           style={{ marginBottom: "1.5rem" }}
         />
         <h1
-          style={{ fontSize: "2rem", marginBottom: "1rem", fontWeight: "700" }}
+          style={{
+            fontSize: "2rem",
+            marginBottom: "1rem",
+            fontWeight: "700",
+            color: "var(--foreground)",
+          }}
         >
           Access Denied
         </h1>
         <p
-          style={{ color: "#a0a0a0", marginBottom: "2rem", lineHeight: "1.6" }}
+          style={{
+            color: "var(--accent-muted)",
+            marginBottom: "2rem",
+            lineHeight: "1.6",
+          }}
         >
           This dashboard is restricted to Tabix staff only. Your email address
           does not have the required permissions.
@@ -49,12 +58,12 @@ export default function UnauthorizedPage() {
           href="/login"
           style={{
             padding: "0.75rem 1.5rem",
-            backgroundColor: "#fff",
-            color: "#000",
+            backgroundColor: "var(--foreground)",
+            color: "var(--background)",
             textDecoration: "none",
             borderRadius: "0.75rem",
             fontWeight: "600",
-            transition: "transform 0.2s",
+            transition: "all 0.2s ease",
           }}
         >
           Return to Login

@@ -22,6 +22,7 @@ export default function LoginPage() {
           justifyContent: "center",
           borderRight: "1px solid var(--card-border)",
         }}
+        className="dots-pattern"
       >
         <div
           style={{
@@ -44,12 +45,12 @@ export default function LoginPage() {
                 fontWeight: "700",
                 letterSpacing: "-0.05em",
                 marginTop: "1rem",
-                color: "#000",
+                color: "var(--foreground)",
               }}
             >
               Tabix Dashboard
             </h1>
-            <p style={{ color: "#666", fontSize: "0.9rem" }}>
+            <p style={{ color: "var(--accent-muted)", fontSize: "0.9rem" }}>
               Staff Authentication Portal
             </p>
           </div>
@@ -119,7 +120,13 @@ export default function LoginPage() {
             </form>
           </div>
 
-          <p style={{ marginTop: "2.5rem", color: "#444", fontSize: "0.8rem" }}>
+          <p
+            style={{
+              marginTop: "2.5rem",
+              color: "var(--accent-muted)",
+              fontSize: "0.8rem",
+            }}
+          >
             Tabix © {year}
           </p>
         </div>
@@ -134,11 +141,12 @@ export default function LoginPage() {
         }}
       >
         <Image
-          src="/login_banner.webp"
+          src="/main_banner.png"
           alt="Banner"
           fill
           style={{
             objectFit: "cover",
+            objectPosition: "center",
           }}
           priority
         />
