@@ -92,31 +92,9 @@ export default function LoginPage() {
                 await signIn("github", { redirectTo: "/dashboard" });
               }}
             >
-              <button
-                style={{
-                  transformOrigin: "10% 70%",
-                  color: "#fff",
-                  backgroundColor: "#000",
-                  border: "1px solid #000",
-                  borderRadius: "19px",
-                  flex: "1",
-                  padding: "10px 5px",
-                  position: "relative",
-                  overflow: "hidden",
-                  boxShadow:
-                    "0 20px 68px #00000040, 0 1px 2px #0000004d, 0 0 #000, inset 0 2px 1px #ffffff80, inset 1px 1px .25px #ffffff4d",
-                  cursor: "pointer",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  gap: "0.75rem",
-                  fontWeight: "100",
-                  width: "75%",
-                  margin: "0 auto",
-                }}
-              >
-                Continue with GitHub
-              </button>
+              {/* <button className="custom-button-2">Continue with GitHub</button> */}
+              <br />
+              <button className="custom-button">Continue with GitHub</button>
             </form>
           </div>
 
@@ -127,7 +105,8 @@ export default function LoginPage() {
               fontSize: "0.8rem",
             }}
           >
-            Tabix © {year}
+            Copyright &copy; <span suppressHydrationWarning>{year}</span> Tabix.
+            All rights reserved.
           </p>
         </div>
       </div>
@@ -141,7 +120,7 @@ export default function LoginPage() {
         }}
       >
         <Image
-          src="/main_banner.png"
+          src="/banner.jpg"
           alt="Banner"
           fill
           style={{
