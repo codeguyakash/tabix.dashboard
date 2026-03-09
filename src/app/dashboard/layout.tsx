@@ -19,6 +19,8 @@ export default async function DashboardLayout({
 }) {
   const session = await auth();
 
+  // console.log(session);
+
   return (
     <div style={{ display: "flex", minHeight: "100vh" }}>
       {/* Sidebar */}
@@ -72,6 +74,12 @@ export default async function DashboardLayout({
             href="/dashboard"
             icon={<LayoutDashboard size={20} />}
             label="Overview"
+            active
+          />
+          <NavItem
+            href="/dashboard/logs"
+            icon={<LayoutDashboard size={20} />}
+            label="Logs"
             active
           />
           <NavItem
