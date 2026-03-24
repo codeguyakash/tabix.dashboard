@@ -7,6 +7,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   callbacks: {
     async signIn({ user }) {
       const allowedEmails = process.env.STAFF_EMAILS?.split(",") || [];
+
+      console.log("Allowed emails:", allowedEmails);
+      console.log("User email:", user.email);
       const userEmail = user.email?.toLowerCase();
 
       if (userEmail && allowedEmails.includes(userEmail)) {
