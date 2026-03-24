@@ -20,7 +20,13 @@ export default function LogPage() {
           signal: controller.signal,
         });
 
+
+        console.log("Logs response:", res);
+
+        
         if (!res.body) return;
+
+
 
         const reader = res.body.getReader();
         const decoder = new TextDecoder("utf-8");
