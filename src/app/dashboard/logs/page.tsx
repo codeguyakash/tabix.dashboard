@@ -1,4 +1,5 @@
 "use client";
+import axios from "axios";
 import { useEffect, useState } from "react";
 
 type LogMessage = {
@@ -6,13 +7,29 @@ type LogMessage = {
   [key: string]: any;
 };
 
+type ServerStatus = {
+  status: string;
+  service: string;
+  serverId: string;
+  serverName: string;
+  pid: number;
+  uptime: number;
+  memory: number;
+  timestamp: string;
+};
+
 const STORAGE_KEY = "tabix_server_logs";
-const MAX_STORAGE_CHARS = 1_250_000; // ~2.5MB (UTF-16 chars) = 50% limit approx
+const MAX_STORAGE_CHARS = 1_250_000;
 
 export default function LogPage() {
   const [messages, setMessages] = useState<LogMessage[]>([]);
-  
-  // Load existing logs from localStorage on mount
+  const [serverStatus, setServerStatus] = useState<ServerStatus | null>(null);
+
+  async function getServerStatus() {
+    const res = await axios.post("/api/status");
+    setServerStatus(res.data);
+  }
+
   useEffect(() => {
     try {
       const stored = localStorage.getItem(STORAGE_KEY);
@@ -79,19 +96,17 @@ export default function LogPage() {
               let updated = [...prev, ...newLogs];
               try {
                 let serialized = JSON.stringify(updated);
-                
-                // Size Check: if serialized strings > ~2.5MB, drop the oldest 50%
                 if (serialized.length > MAX_STORAGE_CHARS) {
                   const cutIndex = Math.floor(updated.length / 2);
                   updated = updated.slice(cutIndex);
                   serialized = JSON.stringify(updated);
                 }
-                
+
                 localStorage.setItem(STORAGE_KEY, serialized);
               } catch (e: any) {
                 console.error("Local storage save error / quota exceeded:", e);
-                // Fallback hard prune if quota exceeded happens before our limit
-                if (e.name === 'QuotaExceededError') {
+
+                if (e.name === "QuotaExceededError") {
                   const cutIndex = Math.floor(updated.length * 0.75); // remove 75%
                   updated = updated.slice(cutIndex);
                   localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
@@ -108,6 +123,7 @@ export default function LogPage() {
       }
     };
 
+    getServerStatus();
     fetchStream();
 
     return () => {
@@ -118,57 +134,136 @@ export default function LogPage() {
   return (
     <div>
       <div style={{ marginBottom: "2.5rem" }}>
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: "1rem" }}>
-           <div>
-             <h2 style={{ fontSize: "1.5rem", fontWeight: "600", marginBottom: "0.25rem" }}>
-               Logs
-             </h2>
-             <p style={{ color: "var(--accent-muted)", margin: 0 }}>
-               Real-time logs from the server. Useful for debugging and monitoring.
-             </p>
-           </div>
-           <button 
-             onClick={clearLogs}
-             style={{
-               padding: "0.5rem 1rem",
-               background: "#ef4444",
-               color: "white",
-               border: "none",
-               borderRadius: "6px",
-               cursor: "pointer",
-               fontWeight: "500",
-               fontSize: "0.875rem",
-               transition: "background 0.2s"
-             }}
-           >
-             Clear Logs
-           </button>
+        <div style={{ marginBottom: "0.5rem" }}>
+          <div>
+            <h2
+              style={{
+                fontSize: "1.5rem",
+                fontWeight: "600",
+                marginBottom: "0.25rem",
+              }}
+            >
+              Logs of{" "}
+              {serverStatus?.serverName?.toUpperCase() || "Tabix Server"}
+            </h2>
+
+            <p style={{ color: "var(--accent-muted)", marginBottom: "1rem" }}>
+              Real-time logs from the server. Useful for debugging and
+              monitoring.
+            </p>
+
+            <div
+              style={{
+                borderRadius: "8px",
+                fontSize: "0.9rem",
+                display: "flex",
+                flexWrap: "wrap",
+                gap: "1.5rem",
+                alignItems: "center",
+                height: "50px",
+                padding: "1rem",
+                background: "#f3f4f6",
+
+                border: "1px solid #e5e7eb",
+              }}
+            >
+              <span>
+                <strong>Status:</strong>{" "}
+                {serverStatus?.status?.toUpperCase() || "-"}
+              </span>
+              <span>
+                <strong>Service:</strong>{" "}
+                {serverStatus?.service?.toUpperCase() || "-"}
+              </span>
+              <span>
+                <strong>Server ID:</strong> {serverStatus?.serverId || "-"}
+              </span>
+              <span>
+                <strong>PID:</strong> {serverStatus?.pid || "-"}
+              </span>
+              <span>
+                <strong>Uptime:</strong> {Math.floor(serverStatus?.uptime || 0)}{" "}
+                sec
+              </span>
+              <span>
+                <strong>Memory:</strong>{" "}
+                {serverStatus?.memory
+                  ? (serverStatus.memory / 1024 / 1024).toFixed(2)
+                  : 0}{" "}
+                MB
+              </span>
+              <span>
+                <strong>Timestamp:</strong>{" "}
+                {serverStatus &&
+                  new Date(serverStatus?.timestamp).toLocaleString()}
+              </span>
+            </div>
+          </div>
         </div>
-        
-        <div style={{ 
-            height: "50vh", 
-            overflowY: "scroll",
-            background: "#1e1e1e",
-            color: "#4ade80",
-            padding: "1.5rem",
-            borderRadius: "8px",
-            fontFamily: "monospace",
-            fontSize: "0.9rem",
-            lineHeight: "1.5",
-            boxShadow: "inset 0 2px 4px rgba(0,0,0,0.5)"
-         }}>
-          {messages.length === 0 ? (
-            <div style={{ color: "#a1a1aa" }}>Waiting for logs...</div>
-          ) : (
-            messages.map((message: LogMessage, index: number) => (
-              <p key={index} style={{ margin: "0.25rem 0", wordBreak: "break-all" }}>
-                <span style={{ color: "#a1a1aa", marginRight: "0.75rem" }}>
-                  [{new Date().toLocaleTimeString()}]
-                </span>
-                {message.message || JSON.stringify(message)}
-              </p>
-            ))
-          )}
+        <div style={{ position: "relative" }}>
+          <button
+            onClick={clearLogs}
+            style={{
+              border: "1px solid #e5e7eb",
+              cursor: "pointer",
+              fontWeight: "500",
+              fontSize: "0.875rem",
+              padding: "0.25rem 0.5rem",
+              borderRadius: "6px",
+              background: "#f3f4f6",
+              position: "absolute",
+              top: "1rem",
+              right: "1.5rem",
+              zIndex: 10,
+              boxShadow: "0 1px 3px rgba(0,0,0,0.1)",
+            }}
+          >
+            Clear Logs
+          </button>
+          <div
+            style={{
+              height: "70vh",
+              overflowY: "scroll",
+              padding: "1.5rem",
+              paddingTop: "1rem",
+              borderRadius: "8px",
+              fontFamily: "monospace",
+              fontSize: "0.9rem",
+              lineHeight: "1.5",
+              border: "1px solid #e5e7eb",
+            }}
+          >
+            {messages.length === 0 ? (
+              <div style={{ color: "#a1a1aa" }}>Waiting for logs...</div>
+            ) : (
+              messages.map((message: LogMessage, index: number) => {
+                const text = message.message || JSON.stringify(message);
+                let textColor = "inherit";
+                if (text.includes("ERROR")) textColor = "#ef4444";
+                else if (text.includes("WARN")) textColor = "#eab308";
+                else if (text.includes("SUCCESS")) textColor = "#22c55e";
+                else if (text.includes("INFO")) textColor = "#3b82f6";
+                else if (text.includes("DEBUG")) textColor = "#a855f7";
+
+                return (
+                  <p
+                    key={index}
+                    style={{
+                      margin: "0.25rem 0",
+                      wordBreak: "break-all",
+                      whiteSpace: "pre-wrap",
+                      color: textColor,
+                    }}
+                  >
+                    <span style={{ color: "#a1a1aa", marginRight: "0.75rem" }}>
+                      [{new Date().toLocaleTimeString()}]
+                    </span>
+                    {text}
+                  </p>
+                );
+              })
+            )}
+          </div>
         </div>
       </div>
     </div>

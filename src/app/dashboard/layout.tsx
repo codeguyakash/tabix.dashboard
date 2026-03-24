@@ -1,15 +1,7 @@
 import { auth, signOut } from "@/auth";
-import {
-  LayoutDashboard,
-  Users,
-  Settings,
-  BarChart3,
-  LogOut,
-  Search,
-  Bell,
-} from "lucide-react";
+import { LogOut, Search, Bell } from "lucide-react";
 import Image from "next/image";
-import Link from "next/link";
+import { SidebarNav } from "@/components/SidebarNav";
 import { ThemeToggle } from "@/components/ThemeToggle";
 
 export default async function DashboardLayout({
@@ -58,41 +50,11 @@ export default async function DashboardLayout({
               color: "var(--foreground)",
             }}
           >
-            Tabix - Octotech
+            Tabix
           </span>
         </div>
 
-        <nav
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            gap: "0.5rem",
-            flex: 1,
-          }}
-        >
-          <NavItem
-            href="/dashboard"
-            icon={<LayoutDashboard size={20} />}
-            label="Overview"
-            active
-          />
-          <NavItem
-            href="/dashboard/logs"
-            icon={<LayoutDashboard size={20} />}
-            label="Logs"
-            active
-          />
-          <NavItem
-            href="/dashboard/analytics"
-            icon={<BarChart3 size={20} />}
-            label="Analytics"
-          />
-          <NavItem
-            href="/dashboard/settings"
-            icon={<Settings size={20} />}
-            label="Settings"
-          />
-        </nav>
+        <SidebarNav />
 
         <div style={{ marginTop: "auto", paddingTop: "2rem" }}>
           <div
@@ -244,39 +206,5 @@ export default async function DashboardLayout({
         {children}
       </main>
     </div>
-  );
-}
-
-function NavItem({
-  href,
-  icon,
-  label,
-  active = false,
-}: {
-  href: string;
-  icon: React.ReactNode;
-  label: string;
-  active?: boolean;
-}) {
-  return (
-    <Link
-      href={href}
-      style={{
-        display: "flex",
-        alignItems: "center",
-        gap: "0.75rem",
-        padding: "0.875rem 1rem",
-        borderRadius: "0.75rem",
-        color: active ? "var(--foreground)" : "var(--accent-muted)",
-        background: active ? "var(--card-bg)" : "transparent",
-        textDecoration: "none",
-        fontWeight: active ? "600" : "500",
-        fontSize: "0.875rem",
-        transition: "all 0.2s",
-      }}
-    >
-      {icon}
-      {label}
-    </Link>
   );
 }
