@@ -45,7 +45,7 @@ export default async function DashboardLayout({
           }}
         >
           <Image
-            src={`logo.svg`}
+            src={`/logo.svg`}
             width={50}
             height={50}
             alt="logo"
@@ -86,11 +86,6 @@ export default async function DashboardLayout({
             href="/dashboard/analytics"
             icon={<BarChart3 size={20} />}
             label="Analytics"
-          />
-          <NavItem
-            href="/dashboard/staff"
-            icon={<Users size={20} />}
-            label="Staff Management"
           />
           <NavItem
             href="/dashboard/settings"
