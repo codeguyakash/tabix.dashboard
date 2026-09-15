@@ -6,11 +6,14 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [Google, GitHub],
   callbacks: {
     async signIn({ user }) {
-      const allowedEmails = process.env.STAFF_EMAILS?.split(",") || [];
+      const allowedEmails =
+        process.env.STAFF_EMAILS?.split(",")
+          .map((email) => email.trim().toLowerCase())
+          .filter(Boolean) || [];
 
       console.log("Allowed emails:", allowedEmails);
       console.log("User email:", user.email);
-      const userEmail = user.email?.toLowerCase();
+      const userEmail = user.email?.trim().toLowerCase();
 
       if (userEmail && allowedEmails.includes(userEmail)) {
         return true;
