@@ -5,8 +5,7 @@
 
 
 
-
-cypress/screenshots/responsive.cy.ts/responsive
+cypress/screenshots/*
 # dependencies
 /node_modules
 /.pnp
@@ -16,7 +15,7 @@ cypress/screenshots/responsive.cy.ts/responsive
 !.yarn/plugins
 !.yarn/releases
 !.yarn/versions
-
+    
 # testing
 /coverage
 
